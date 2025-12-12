@@ -276,6 +276,12 @@ local TabListLayout = Utility:Create("UIListLayout", {
     HorizontalAlignment = Enum.HorizontalAlignment.Center
 })
 
+TabListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    Content.CanvasSize = UDim2.new(0, 0, 0, TabListLayout.AbsoluteContentSize.Y + 8)
+end)
+
+Content.CanvasSize = UDim2.new(0, 0, 0, TabListLayout.AbsoluteContentSize.Y + 8)
+
 -- // TAB LOGIC \\ --
 local CurrentTab = nil
 
@@ -788,3 +794,4 @@ TweenService:Create(MainFrame, TweenInfo.new(1.2, Enum.EasingStyle.Quart, Enum.E
 visible = true
 
 Utility:Notify("XChassis v6", "Loaded. Enjoy!", 4)
+
