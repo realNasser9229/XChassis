@@ -308,6 +308,27 @@ local function CreateTab(name)
         SortOrder = Enum.SortOrder.LayoutOrder,
         HorizontalAlignment = Enum.HorizontalAlignment.Center
     })
+-- DUPLICATE NKOOOOWOAOOAOAA
+-- Create the UIListLayout (do not store the return)
+Utility:Create("UIListLayout", {
+    Parent = Content,
+    Padding = UDim.new(0, 8),
+    SortOrder = Enum.SortOrder.LayoutOrder,
+    HorizontalAlignment = Enum.HorizontalAlignment.Center
+})
+
+-- Fetch the actual instance
+local layout = Content:FindFirstChildOfClass("UIListLayout")
+
+if layout then
+    -- Update CanvasSize whenever the content changes
+    layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+        Content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 8)
+    end)
+
+    -- Initialize CanvasSize once
+    Content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 8)
+end
     
     Btn.MouseButton1Click:Connect(function()
         Utility:Ripple(Btn)
@@ -788,3 +809,4 @@ TweenService:Create(MainFrame, TweenInfo.new(1.2, Enum.EasingStyle.Quart, Enum.E
 visible = true
 
 Utility:Notify("XChassis v6", "Loaded. Enjoy!", 4)
+
