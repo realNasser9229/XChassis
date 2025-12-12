@@ -269,6 +269,7 @@ local TabButtons = Utility:Create("ScrollingFrame", {
     ScrollBarThickness = 0,
     Parent = Sidebar
 })
+-- create the list layout and keep a reference
 local TabListLayout = Utility:Create("UIListLayout", {
     Parent = Content,
     Padding = UDim.new(0, 8),
@@ -276,13 +277,18 @@ local TabListLayout = Utility:Create("UIListLayout", {
     HorizontalAlignment = Enum.HorizontalAlignment.Center
 })
 
-local layout = Content:FindFirstChildWhichIsA("UIListLayout")
+-- prefer the direct reference, fallback to a safe finder
+local layout = TabListLayout or Content:FindFirstChildOfClass("UIListLayout")
 
-layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+-- only connect if we actually have a layout object (prevents nil errors)
+if layout then
+    layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+        Content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 8)
+    end)
+
+    -- initialize CanvasSize once
     Content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 8)
-end)
-
-Content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 8)
+end
 
 -- // TAB LOGIC \\ --
 local CurrentTab = nil
@@ -796,6 +802,7 @@ TweenService:Create(MainFrame, TweenInfo.new(1.2, Enum.EasingStyle.Quart, Enum.E
 visible = true
 
 Utility:Notify("XChassis v6", "Loaded. Enjoy!", 4)
+
 
 
 
