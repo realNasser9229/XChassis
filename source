@@ -786,4 +786,5 @@ TweenService:Create(MainFrame, TweenInfo.new(1.2, Enum.EasingStyle.Quart, Enum.E
 }):Play()
 
 visible = true
+
 Utility:Notify("XChassis v6", "Loaded. Enjoy!", 4)
