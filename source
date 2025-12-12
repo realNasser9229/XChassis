@@ -269,12 +269,22 @@ local TabButtons = Utility:Create("ScrollingFrame", {
     ScrollBarThickness = 0,
     Parent = Sidebar
 })
-local TabListLayout = Utility:Create("UIListLayout", {
-    Parent = TabButtons,
+Utility:Create("UIListLayout", {
+    Parent = Content,
+    Padding = UDim.new(0, 8),
     SortOrder = Enum.SortOrder.LayoutOrder,
-    Padding = UDim.new(0, 5),
     HorizontalAlignment = Enum.HorizontalAlignment.Center
 })
+
+-- get the actual instance
+local layout = Content:FindFirstChildOfClass("UIListLayout")
+if layout then
+    layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+        Content.CanvasSize = UDim2.new(0,0,0,layout.AbsoluteContentSize.Y + 8)
+    end)
+
+    Content.CanvasSize = UDim2.new(0,0,0,layout.AbsoluteContentSize.Y + 8)
+end
 
 TabListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
     Content.CanvasSize = UDim2.new(0, 0, 0, TabListLayout.AbsoluteContentSize.Y + 8)
@@ -794,4 +804,5 @@ TweenService:Create(MainFrame, TweenInfo.new(1.2, Enum.EasingStyle.Quart, Enum.E
 visible = true
 
 Utility:Notify("XChassis v6", "Loaded. Enjoy!", 4)
+
 
