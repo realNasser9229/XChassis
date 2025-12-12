@@ -277,18 +277,13 @@ local TabListLayout = Utility:Create("UIListLayout", {
     HorizontalAlignment = Enum.HorizontalAlignment.Center
 })
 
--- prefer the direct reference, fallback to a safe finder
-local layout = TabListLayout or Content:FindFirstChildOfClass("UIListLayout")
+local layout = Content:FindFirstChildOfClass("UIListLayout")
 
--- only connect if we actually have a layout object (prevents nil errors)
-if layout then
-    layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-        Content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 8)
-    end)
-
-    -- initialize CanvasSize once
+layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
     Content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 8)
-end
+end)
+
+Content.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y + 8)
 
 -- // TAB LOGIC \\ --
 local CurrentTab = nil
@@ -802,6 +797,7 @@ TweenService:Create(MainFrame, TweenInfo.new(1.2, Enum.EasingStyle.Quart, Enum.E
 visible = true
 
 Utility:Notify("XChassis v6", "Loaded. Enjoy!", 4)
+
 
 
 
