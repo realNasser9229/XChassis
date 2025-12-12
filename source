@@ -712,8 +712,8 @@ return {
     end
 }
         ]]
-        writefile(Config.PluginFolder.."/ExamplePlugin.xcha", exampleCode)
-        Utility:Notify("Plugins", "Created ExamplePlugin.xcha in workspace/"..Config.PluginFolder)
+        writefile(Config.PluginFolder.."/ExamplePlugin.lua", exampleCode)
+        Utility:Notify("Plugins", "Created ExamplePlugin.lua in workspace/"..Config.PluginFolder)
         ReloadPlugins()
     end)
     
@@ -724,7 +724,7 @@ return {
         local count = 0
         
         for _, filePath in pairs(files) do
-            if filePath:sub(-4) == ".xcha" then
+            if filePath:sub(-4) == ".lua" then
                 task.spawn(function()
                     local success, pluginData = pcall(function()
                         return loadstring(readfile(filePath))()
@@ -777,13 +777,13 @@ CreateButton(TabExec, "Clear", function() ExecBox.Text = "" end)
 local ToggleBtn = Utility:Create("TextButton", {
     Name = "Toggle",
     Parent = ScreenGui,
-    Size = UDim2.new(0, 45, 0, 45),
+    Size = UDim2.new(0, 60, 0, 60),
     Position = UDim2.new(1, -55, 0, 10),
     BackgroundColor3 = Config.Accent,
-    Text = "V6",
+    Text = "XC",
     TextColor3 = Config.Text,
     Font = Config.FontBold,
-    TextSize = 20
+    TextSize = 25
 })
 Utility:AddCorner(ToggleBtn, UDim.new(0, 8))
 Utility:MakeDraggable(ToggleBtn, ToggleBtn)
@@ -809,4 +809,5 @@ TweenService:Create(MainFrame, TweenInfo.new(1.2, Enum.EasingStyle.Quart, Enum.E
 visible = true
 
 Utility:Notify("XChassis v6", "Loaded. Enjoy!", 4)
+
 
