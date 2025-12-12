@@ -15,7 +15,7 @@ local HttpService = game:GetService("HttpService")
 
 -- // CONFIGURATION & THEME \\ --
 local Config = {
-    Name = "XChassis v6",
+    Name = "XChassis v1.5.3",
     LogoId = "rbxassetid://91812963029195", -- Image ID for the logo
     Accent = Color3.fromRGB(255, 50, 50), 
     Gradient1 = Color3.fromRGB(40, 0, 0), 
@@ -809,5 +809,6 @@ TweenService:Create(MainFrame, TweenInfo.new(1.2, Enum.EasingStyle.Quart, Enum.E
 visible = true
 
 Utility:Notify("XChassis v6", "Loaded. Enjoy!", 4)
+
 
 
