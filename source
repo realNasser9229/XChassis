@@ -474,23 +474,23 @@ CreateButton(TabLocal, "Kill Others", function()
     end
 end)
 CreateButton(TabLocal, "ESP Toggle", function()
-    -- Check if any ESP exists; if yes, destroy them all (toggle off)
+    -- Check if any ESP exists (toggle off)
     local anyESP = false
     for _, plr in ipairs(Players:GetPlayers()) do
         if plr.Character then
             for _, obj in ipairs(plr.Character:GetChildren()) do
                 if obj:IsA("Highlight") or (obj:IsA("BillboardGui") and obj.Name == "XChassisESP") then
                     anyESP = true
-                    obj:Destroy()
+                    obj:Destroy() -- remove ESP objects
                 end
             end
         end
     end
 
-    -- If ESP existed, we destroyed it => toggled off
+    -- If ESP existed, we destroyed it => toggle off
     if anyESP then return end
 
-    -- Otherwise, create ESP (toggle on)
+    -- Toggle on: create ESP for all players
     for _, plr in ipairs(Players:GetPlayers()) do
         if plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
             local color = (LocalPlayer:IsFriendsWith(plr.UserId) and Color3.fromRGB(255, 255, 0)) or Color3.fromRGB(255, 255, 255)
@@ -498,8 +498,9 @@ CreateButton(TabLocal, "ESP Toggle", function()
             -- Billboard GUI
             local head = plr.Character:FindFirstChild("Head")
             if head then
-                local bb = Instance.new("BillboardGui", head)
+                local bb = Instance.new("BillboardGui")
                 bb.Name = "XChassisESP"
+                bb.Parent = head
                 bb.Size = UDim2.new(0, 150, 0, 50)
                 bb.StudsOffset = Vector3.new(0, 3, 0)
                 bb.AlwaysOnTop = true
@@ -522,9 +523,9 @@ end)
 -- Teleport To Player
 local TeleportBox = Utility:Create("TextBox", {
     Parent = TabLocal,
-    Size = UDim2.new(0, 200, 0, 30),
-    PlaceholderText = "Enter player name...",
-    ClearTextOnFocus = false,
+    Size = UDim2.new(0, 333, 0, 30),
+    PlaceholderText = "Enter Player",
+    ClearTextOnFocus = true,
     Text = ""
 })
 
@@ -1023,6 +1024,7 @@ task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Welcome to a recontinuation, a fork of NasGUI.", 5)
 task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Loaded. Made by Nas9229alt!", 5)
+
 
 
 
