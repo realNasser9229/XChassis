@@ -495,10 +495,11 @@ CreateButton(TabScripts, "Set Particles", function()
 end)
 -- Spin Skybox (360° fast loop)
 CreateButton(TabScripts, "Spin Skybox", function()
-    local sky = Lighting:FindFirstChildOfClass("Sky") or Instance.new("Sky", Lighting)
+    local sky = workspace.CurrentCamera:FindFirstChildOfClass("Sky") or game.Lighting:FindFirstChildOfClass("Sky") or Instance.new("Sky", game.Lighting)
+    
     RunService.RenderStepped:Connect(function(dt)
-        sky.SkyboxBk = sky.SkyboxBk
-        Lighting.ClockTime += dt * 24
+        local cf = CFrame.Angles(0, math.rad(180*dt), 0) -- adjust speed here
+        sky.Orientation = (sky.Orientation or Vector3.new()) + Vector3.new(0, 5, 0)
     end)
 end)
 -- Nas' GIF Skybox
@@ -527,13 +528,20 @@ CreateButton(TabScripts, "Nas' GIF Skybox", function()
 end)
 -- Spin Baseplate
 CreateButton(TabScripts, "Spin Baseplate", function()
+    local baseparts = {}
+    
+    -- Collect all parts that are large-ish platforms
     for _, v in ipairs(workspace:GetDescendants()) do
-        if v:IsA("BasePart") and v.Name:lower():find("base") then
-            RunService.RenderStepped:Connect(function()
-                v.CFrame *= CFrame.Angles(0, math.rad(5), 0)
-            end)
+        if v:IsA("BasePart") and v.Size.Magnitude > 10 then
+            table.insert(baseparts, v)
         end
     end
+
+    RunService.RenderStepped:Connect(function(dt)
+        for _, part in ipairs(baseparts) do
+            part.CFrame = part.CFrame * CFrame.Angles(0, math.rad(5), 0) -- spin around Y-axis
+        end
+    end)
 end)
 -- Nas' Billboard GUI (local player)
 CreateButton(TabScripts, "Nas' Billboard GUI", function()
@@ -979,6 +987,7 @@ task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Welcome to a recontinuation, a fork of NasGUI.", 5)
 task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Loaded. Made by Nas9229alt!", 5)
+
 
 
 
