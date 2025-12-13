@@ -423,8 +423,56 @@ end
 
 -- [TAB 1: LOCAL]
 local TabLocal = CreateTab("LocalPlayer")
-CreateSlider(TabLocal, "WalkSpeed", 16, 500, 16, function(v) if LocalPlayer.Character then LocalPlayer.Character.Humanoid.WalkSpeed = v end end)
-CreateSlider(TabLocal, "JumpPower", 50, 500, 50, function(v) if LocalPlayer.Character then LocalPlayer.Character.Humanoid.JumpPower = v end end)
+CreateSlider(TabLocal, "WalkSpeed", 16, 10000, 16, function(v) if LocalPlayer.Character then LocalPlayer.Character.Humanoid.WalkSpeed = v end end)
+CreateSlider(TabLocal, "JumpPower", 50, 10000, 50, function(v) if LocalPlayer.Character then LocalPlayer.Character.Humanoid.JumpPower = v end end)
+CreateSlider(TabLocal, "Gravity", 0, 10000, workspace.Gravity, function(v)
+    workspace.Gravity = v
+end)
+local Camera = workspace.CurrentCamera
+
+CreateSlider(TabLocal, "FOV", 30, 10000, Camera.FieldOfView, function(v)
+    Camera.FieldOfView = v
+end)
+-- 🕒 Time of Day
+CreateSlider(TabLocal, "Time Of Day", 0, 24, Lighting.ClockTime, function(v)
+    Lighting.ClockTime = v
+end)
+-- ❤️ Set Health (local player)
+CreateSlider(TabLocal, "Health", 0, 10000, 100, function(v)
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+        LocalPlayer.Character.Humanoid.Health = v
+    end
+end)
+-- 💪 Set Max Health (local player)
+CreateSlider(TabLocal, "Max Health", 0, 10000, 100, function(v)
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+        local hum = LocalPlayer.Character.Humanoid
+        hum.MaxHealth = v
+        hum.Health = v
+    end
+end)
+-- ☠ Others Health (not local player)
+CreateSlider(TabLocal, "Others Health", 0, 10000, 100, function(v)
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("Humanoid") then
+            plr.Character.Humanoid.Health = v
+        end
+    end
+end)
+-- ⚡ Quick Respawn
+CreateButton(TabLocal, "Quick Respawn", function()
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+        LocalPlayer.Character.Humanoid.Health = 0
+    end
+end)
+-- ☠ Kill Others
+CreateButton(TabLocal, "Kill Others", function()
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= LocalPlayer and plr.Character and plr.Character:FindFirstChild("Humanoid") then
+            plr.Character.Humanoid.Health = 0
+        end
+    end
+end)
 CreateButton(TabLocal, "Reset Character", function() if LocalPlayer.Character then LocalPlayer.Character.Humanoid.Health = 0 end end)
 
 -- [TAB 2: SCRIPTS]
@@ -931,6 +979,7 @@ task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Welcome to a recontinuation, a fork of NasGUI.", 5)
 task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Loaded. Made by Nas9229alt!", 5)
+
 
 
 
