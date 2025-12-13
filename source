@@ -502,30 +502,6 @@ CreateButton(TabScripts, "Spin Skybox", function()
         sky.Orientation = (sky.Orientation or Vector3.new()) + Vector3.new(0, 5, 0)
     end)
 end)
--- Nas' GIF Skybox
-CreateButton(TabScripts, "Nas' GIF Skybox", function()
-    local ids = {
-        "rbxassetid://123340021402651",
-        "rbxassetid://88685104211105",
-        "rbxassetid://89433942265608",
-        "rbxassetid://14060680938"
-    }
-
-    local sky = Lighting:FindFirstChildOfClass("Sky") or Instance.new("Sky", Lighting)
-    task.spawn(function()
-        while true do
-            for _, id in ipairs(ids) do
-                sky.SkyboxBk = id
-                sky.SkyboxDn = id
-                sky.SkyboxFt = id
-                sky.SkyboxLf = id
-                sky.SkyboxRt = id
-                sky.SkyboxUp = id
-                task.wait(0.15)
-            end
-        end
-    end)
-end)
 -- Spin Baseplate
 CreateButton(TabScripts, "Spin Baseplate", function()
     local baseparts = {}
@@ -543,25 +519,9 @@ CreateButton(TabScripts, "Spin Baseplate", function()
         end
     end)
 end)
--- Nas' Billboard GUI (local player)
-CreateButton(TabScripts, "Nas' Billboard GUI", function()
-    local char = lp.Character or lp.CharacterAdded:Wait()
-    local head = char:WaitForChild("Head")
 
-    local bb = Instance.new("BillboardGui", head)
-    bb.Size = UDim2.new(0, 200, 0, 50)
-    bb.StudsOffset = Vector3.new(0, 2.5, 0)
-    bb.AlwaysOnTop = true
-
-    local txt = Instance.new("TextLabel", bb)
-    txt.Size = UDim2.new(1, 0, 1, 0)
-    txt.BackgroundTransparency = 1
-    txt.Text = "NAS9229ALT"
-    txt.TextColor3 = Color3.fromRGB(255, 0, 0)
-    txt.TextScaled = true
-end)
 -- Others' Billboard GUI
-CreateButton(TabScripts, "Others' Billboard GUI", function()
+CreateButton(TabScripts, "Billboard GUI", function()
     for _, plr in ipairs(Players:GetPlayers()) do
         if plr ~= lp and plr.Character and plr.Character:FindFirstChild("Head") then
             local head = plr.Character.Head
@@ -578,17 +538,6 @@ CreateButton(TabScripts, "Others' Billboard GUI", function()
             txt.TextScaled = true
         end
     end
-end)
--- Spin Others
-CreateButton(TabScripts, "Spin Others", function()
-    RunService.RenderStepped:Connect(function()
-        for _, plr in ipairs(Players:GetPlayers()) do
-            if plr ~= lp and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
-                local hrp = plr.Character.HumanoidRootPart
-                hrp.CFrame *= CFrame.Angles(0, math.rad(10), 0)
-            end
-        end
-    end)
 end)
 -- Inf Leaderboard Values
 CreateButton(TabScripts, "Inf Leaderboard Values", function()
@@ -987,6 +936,7 @@ task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Welcome to a recontinuation, a fork of NasGUI.", 5)
 task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Loaded. Made by Nas9229alt!", 5)
+
 
 
 
