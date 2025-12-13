@@ -519,6 +519,47 @@ CreateButton(TabLocal, "ESP Toggle", function()
         end
     end
 end)
+-- Teleport To Player
+local TeleportBox = Utility:Create("TextBox", {
+    Parent = TabLocal,
+    Size = UDim2.new(0, 200, 0, 30),
+    PlaceholderText = "Enter player name...",
+    ClearTextOnFocus = false,
+    Text = ""
+})
+
+CreateButton(TabLocal, "Teleport To Player", function()
+    local targetName = TeleportBox.Text:lower()
+    if targetName == "" then
+        Utility:Notify("Teleport", "Please enter a player name")
+        return
+    end
+
+    local targetPlayer
+    for _, plr in ipairs(game:GetService("Players"):GetPlayers()) do
+        local username = plr.Name:lower()
+        local displayName = plr.DisplayName:lower()
+        if username:find(targetName) or displayName:find(targetName) then
+            targetPlayer = plr
+            break
+        end
+    end
+
+    if not targetPlayer then
+        Utility:Notify("Teleport", "Player not found")
+        return
+    end
+
+    local char = LocalPlayer.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    local targetHRP = targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart")
+    if hrp and targetHRP then
+        hrp.CFrame = targetHRP.CFrame + Vector3.new(0,3,0) -- teleport slightly above
+        Utility:Notify("Teleport", "Teleported to "..targetPlayer.Name)
+    else
+        Utility:Notify("Teleport", "Teleport failed: missing HumanoidRootPart")
+    end
+end)
 CreateButton(TabLocal, "Reset Character", function() if LocalPlayer.Character then LocalPlayer.Character.Humanoid.Health = 0 end end)
 
 -- [TAB 2: SCRIPTS]
@@ -982,6 +1023,7 @@ task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Welcome to a recontinuation, a fork of NasGUI.", 5)
 task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Loaded. Made by Nas9229alt!", 5)
+
 
 
 
