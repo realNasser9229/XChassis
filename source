@@ -5,6 +5,7 @@
     - Logo Integration
 ]]
 
+local Lighting = game:GetService("Lighting")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
@@ -444,6 +445,123 @@ CreateButton(TabScripts, "Set Particles", function()
         end
     Utility:Notify("Scripts", "Loaded Particles")
 end)
+-- Spin Skybox (360° fast loop)
+CreateButton(TabScripts, "Spin Skybox", function()
+    local sky = Lighting:FindFirstChildOfClass("Sky") or Instance.new("Sky", Lighting)
+    RunService.RenderStepped:Connect(function(dt)
+        sky.SkyboxBk = sky.SkyboxBk
+        Lighting.ClockTime += dt * 24
+    end)
+end)
+-- Nas' GIF Skybox
+CreateButton(TabScripts, "Nas' GIF Skybox", function()
+    local ids = {
+        "rbxassetid://123340021402651",
+        "rbxassetid://88685104211105",
+        "rbxassetid://89433942265608",
+        "rbxassetid://14060680938"
+    }
+
+    local sky = Lighting:FindFirstChildOfClass("Sky") or Instance.new("Sky", Lighting)
+    task.spawn(function()
+        while true do
+            for _, id in ipairs(ids) do
+                sky.SkyboxBk = id
+                sky.SkyboxDn = id
+                sky.SkyboxFt = id
+                sky.SkyboxLf = id
+                sky.SkyboxRt = id
+                sky.SkyboxUp = id
+                task.wait(0.15)
+            end
+        end
+    end)
+end)
+-- Spin Baseplate
+CreateButton(TabScripts, "Spin Baseplate", function()
+    for _, v in ipairs(workspace:GetDescendants()) do
+        if v:IsA("BasePart") and v.Name:lower():find("base") then
+            RunService.RenderStepped:Connect(function()
+                v.CFrame *= CFrame.Angles(0, math.rad(5), 0)
+            end)
+        end
+    end
+end)
+-- Nas' Billboard GUI (local player)
+CreateButton(TabScripts, "Nas' Billboard GUI", function()
+    local char = lp.Character or lp.CharacterAdded:Wait()
+    local head = char:WaitForChild("Head")
+
+    local bb = Instance.new("BillboardGui", head)
+    bb.Size = UDim2.new(0, 200, 0, 50)
+    bb.StudsOffset = Vector3.new(0, 2.5, 0)
+    bb.AlwaysOnTop = true
+
+    local txt = Instance.new("TextLabel", bb)
+    txt.Size = UDim2.new(1, 0, 1, 0)
+    txt.BackgroundTransparency = 1
+    txt.Text = "NAS9229ALT"
+    txt.TextColor3 = Color3.fromRGB(255, 0, 0)
+    txt.TextScaled = true
+end)
+-- Others' Billboard GUI
+CreateButton(TabScripts, "Others' Billboard GUI", function()
+    for _, plr in ipairs(Players:GetPlayers()) do
+        if plr ~= lp and plr.Character and plr.Character:FindFirstChild("Head") then
+            local head = plr.Character.Head
+            local bb = Instance.new("BillboardGui", head)
+            bb.Size = UDim2.new(0, 220, 0, 50)
+            bb.StudsOffset = Vector3.new(0, 2.5, 0)
+            bb.AlwaysOnTop = true
+
+            local txt = Instance.new("TextLabel", bb)
+            txt.Size = UDim2.new(1, 0, 1, 0)
+            txt.BackgroundTransparency = 1
+            txt.Text = "NAS9229ALT'S PET MONKEY"
+            txt.TextColor3 = Color3.new(1,1,1)
+            txt.TextScaled = true
+        end
+    end
+end)
+-- Spin Others
+CreateButton(TabScripts, "Spin Others", function()
+    RunService.RenderStepped:Connect(function()
+        for _, plr in ipairs(Players:GetPlayers()) do
+            if plr ~= lp and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+                local hrp = plr.Character.HumanoidRootPart
+                hrp.CFrame *= CFrame.Angles(0, math.rad(10), 0)
+            end
+        end
+    end)
+end)
+-- Inf Leaderboard Values
+CreateButton(TabScripts, "Inf Leaderboard Values", function()
+    local stats = lp:FindFirstChild("leaderstats")
+    if stats then
+        for _, v in ipairs(stats:GetChildren()) do
+            if v:IsA("NumberValue") or v:IsA("IntValue") then
+                v.Value = math.huge
+            end
+        end
+    end
+end)
+-- Auto-Heal
+CreateButton(TabScripts, "Auto-Heal", function()
+    local hum = (lp.Character or lp.CharacterAdded:Wait()):WaitForChild("Humanoid")
+    hum.HealthChanged:Connect(function()
+        if hum.Health < hum.MaxHealth then
+            hum.Health = hum.MaxHealth
+        end
+    end)
+end)
+-- Bypass Skybox (freeze far away)
+CreateButton(TabScripts, "Bypass Skybox", function()
+    local hrp = (lp.Character or lp.CharacterAdded:Wait()):WaitForChild("HumanoidRootPart")
+    RunService.RenderStepped:Connect(function()
+        hrp.Velocity = Vector3.zero
+        hrp.CFrame = CFrame.new(0, math.huge, 0)
+    end)
+end)
 CreateButton(TabScripts, "Set Hint", function()
     local h = Instance.new("Hint", workspace)
         h.Text = "BOW DOWN TO NAS9229ALT & HAXSTER998 CUZ WE PWNED THIS GAME LOL"
@@ -813,6 +931,7 @@ task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Welcome to a recontinuation, a fork of NasGUI.", 5)
 task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Loaded. Made by Nas9229alt!", 5)
+
 
 
 
