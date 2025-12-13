@@ -15,7 +15,7 @@ local HttpService = game:GetService("HttpService")
 
 -- // CONFIGURATION & THEME \\ --
 local Config = {
-    Name = "XChassis v1.5.3",
+    Name = "XCHASSIS",
     LogoId = "rbxassetid://91812963029195", -- Image ID for the logo
     Accent = Color3.fromRGB(255, 50, 50), 
     Gradient1 = Color3.fromRGB(40, 0, 0), 
@@ -808,11 +808,12 @@ TweenService:Create(MainFrame, TweenInfo.new(1.2, Enum.EasingStyle.Quart, Enum.E
 
 visible = true
 
-Utility:Notify("XChassis", "Loading...", 10)
-task.wait(11)
-Utility:Notify("XChassis", "Welcome to a recontinuation, a fork of NasGUI.", 5)
+Utility:Notify("XChassis v1.5.3", "Loading...", 5)
 task.wait(6)
-Utility:Notify("XChassis", "Loaded. Made by Nas9229alt!", 5)
+Utility:Notify("XChassis v1.5.3", "Welcome to a recontinuation, a fork of NasGUI.", 5)
+task.wait(6)
+Utility:Notify("XChassis v1.5.3", "Loaded. Made by Nas9229alt!", 5)
+
 
 
 
