@@ -24,8 +24,8 @@ local Config = {
     Text = Color3.fromRGB(255, 255, 255),
     TextDark = Color3.fromRGB(170, 170, 170),
     CornerRadius = UDim.new(0, 8),
-    Font = Enum.Font.Bangers,
-    FontBold = Enum.Font.Bangers,
+    Font = Enum.Font.GothamBold,
+    FontBold = Enum.Font.GothamBold,
     PluginFolder = "XChassis_Plugins"
 }
 
@@ -979,6 +979,7 @@ task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Welcome to a recontinuation, a fork of NasGUI.", 5)
 task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Loaded. Made by Nas9229alt!", 5)
+
 
 
 
