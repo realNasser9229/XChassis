@@ -808,7 +808,12 @@ TweenService:Create(MainFrame, TweenInfo.new(1.2, Enum.EasingStyle.Quart, Enum.E
 
 visible = true
 
-Utility:Notify("XChassis v6", "Loaded. Enjoy!", 4)
+Utility:Notify("XChassis", "Loading...", 10)
+task.wait(11)
+Utility:Notify("XChassis", "Welcome to a recontinuation, a fork of NasGUI.", 5)
+task.wait(6)
+Utility:Notify("XChassis", "Loaded. Made by Nas9229alt!", 5)
+
 
 
 
