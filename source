@@ -474,27 +474,23 @@ CreateButton(TabLocal, "Kill Others", function()
     end
 end)
 CreateButton(TabLocal, "ESP Toggle", function()
-    -- Check if any ESP already exists
-    local existing = {}
+    -- Find all existing ESP objects
+    local anyESP = false
     for _, plr in ipairs(Players:GetPlayers()) do
         if plr.Character then
             for _, obj in ipairs(plr.Character:GetChildren()) do
                 if obj:IsA("Highlight") or (obj:IsA("BillboardGui") and obj.Name == "XChassisESP") then
-                    table.insert(existing, obj)
+                    anyESP = true
+                    obj:Destroy()
                 end
             end
         end
     end
 
-    -- If ESP exists, remove it (toggle off)
-    if #existing > 0 then
-        for _, obj in ipairs(existing) do
-            obj:Destroy()
-        end
-        return
-    end
+    -- If any ESP was found and destroyed, we stop here (toggled off)
+    if anyESP then return end
 
-    -- Otherwise, add ESP to all players
+    -- Otherwise, create new ESP for all players (toggle on)
     for _, plr in ipairs(Players:GetPlayers()) do
         if plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
             local color = (LocalPlayer:IsFriendsWith(plr.UserId) and Color3.fromRGB(255, 255, 0)) or Color3.fromRGB(255, 255, 255)
@@ -986,6 +982,7 @@ task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Welcome to a recontinuation, a fork of NasGUI.", 5)
 task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Loaded. Made by Nas9229alt!", 5)
+
 
 
 
