@@ -702,22 +702,171 @@ CreateButton(TabScripts, "Play Theme", function()
         snd.Looped = true snd.Volume = 15 snd.PlaybackSpeed = 0.18 snd:Play()
     Utility:Notify("Scripts", "Playing Theme")
 end)
+CreateButton(TabScripts, "Spin Skybox V2", function()
+    local RunService = game:GetService("RunService")
+    local lighting = game:GetService("Lighting")
+
+    -- Find the Sky object
+    local sky = lighting:FindFirstChildOfClass("Sky")
+    if not sky then
+        warn("Sky object not found under Lighting")
+        return
+    end
+
+    -- Speed in degrees per second (adjust as needed)
+    local speed = 360 * 1000000 -- 10 full rotations per second
+
+    -- Spin loop
+    RunService.RenderStepped:Connect(function(dt)
+        local current = sky.SkyboxOrientation
+        local newX = (current.X + speed * dt) % 360
+        sky.SkyboxOrientation = Vector3.new(newX, current.Y, current.Z)
+    end)
+    Utility:Notify("Scripts", "Spinning Skybox v2")
+end)
 CreateButton(TabScripts, "Grab Knife V4", function()
     loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Grab-Knife-V4-56561"))()
     Utility:Notify("Scripts", "Loaded Grab Knife V4")
 end)
-CreateButton(TabScripts, "Walk On Walls", function()
-    loadstring(game:HttpGet("https://rawscripts.net/raw/FE-walk-on-walls_206"))()
-    Utility:Notify("Scripts", "Loaded Walk On Walls")
+CreateButton(TabScripts, "JanGUI v2", function()
+    loadstring(game:HttpGet("https://pastefy.app/Sfeg0MGf/raw"))()
+    Utility:Notify("Scripts", "Loaded JanGUI v2")
+end)
+CreateButton(TabScripts, "Anti-Kick", function()
+    local mt = getrawmetatable(game)
+    local oldNamecall = mt.__namecall
+    setreadonly(mt, false)
+
+
+    mt.__namecall = newcclosure(function(self, ...)
+        local args = {...}
+        local method = getnamecallmethod()
+
+
+        -- Block any attempt to kick the local player
+        if method == "Kick" and self == game.Players.LocalPlayer then
+            warn("Blocked a kick attempt!")
+            return
+        end
+
+
+        return oldNamecall(self, ...)
+    end)
+
+
+    setreadonly(mt, true)
+
+
+    -- Extra protection: detect scripts that try to destroy character
+    local player = game.Players.LocalPlayer
+    if player.Character then
+        player.Character:GetPropertyChangedSignal("Parent"):Connect(function()
+            if not player.Character.Parent then
+                warn("Attempted to remove character! Re-parenting...")
+                player.Character.Parent = workspace
+            end
+        end)
+    end
+    Utility:Notify("Scripts", "Loaded Anti-Kick")
 end)
 CreateButton(TabScripts, "Leave Game", function()
     game:Shutdown()
     Utility:Notify("Scripts", "Left the game")
 end)
+CreateButton(TabScripts, "Create Team", function()
+         local Teams = game:GetService("Teams")
+        local teamName = "TEAM NAS9229ALT JOIN TODAY!"
+        local team = Teams:FindFirstChild(teamName)
+        if not team then
+            team = Instance.new("Team")
+            team.Name = teamName
+            team.TeamColor = BrickColor.new("Bright red")
+            team.AutoAssignable = false
+            team.Parent = Teams
+        end
+        local leaderstats = LocalPlayer:FindFirstChild("leaderstats")
+        if not leaderstats then
+            leaderstats = Instance.new("Folder")
+            leaderstats.Name = "leaderstats"
+            leaderstats.Parent = LocalPlayer
+        end
+        local teamStat = leaderstats:FindFirstChild("Team")
+        if not teamStat then
+            teamStat = Instance.new("StringValue")
+            teamStat.Name = "Team"
+            teamStat.Value = team.Name
+            teamStat.Parent = leaderstats
+        else
+            teamStat.Value = team.Name
+        end
+        LocalPlayer.Team = team
+    Utility:Notify("Scripts", "Created Team")
+end)
+CreateButton(TabScripts, "Trail", function()
+    spawn(function()
+            while task.wait(1) do
+                local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+        local hrp = char:WaitForChild("HumanoidRootPart")
+        if hrp:FindFirstChild("NasTrailAttachment0") then
+            for _, obj in pairs(hrp:GetChildren()) do
+                if obj:IsA("Trail") or obj:IsA("Attachment") then
+                    obj:Destroy()
+                end
+            end
+        end
+        local att0 = Instance.new("Attachment")
+        att0.Name = "NasTrailAttachment0"
+        att0.Position = Vector3.new(0, 1, 0)
+        att0.Parent = hrp
+        local att1 = Instance.new("Attachment")
+        att1.Name = "NasTrailAttachment1"
+        att1.Position = Vector3.new(0, -1, 0)
+        att1.Parent = hrp
+        local trail = Instance.new("Trail")
+        trail.Attachment0 = att0
+        trail.Attachment1 = att1
+        trail.Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 0, 0)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 0))
+        }
+        trail.Lifetime = 1
+        trail.MinLength = 0.1
+        trail.LightEmission = 1
+        trail.WidthScale = NumberSequence.new(0.5)
+        trail.Parent = hrp
+    Utility:Notify("Scripts", "Put Trail in your back")
+end)
 CreateButton(TabScripts, "Set Hint", function()
     local h = Instance.new("Hint", workspace)
         h.Text = "BOW DOWN TO NAS9229ALT & HAXSTER998 CUZ WE PWNED THIS GAME LOL"
     Utility:Notify("Scripts", "Loaded Hint")
+end)
+CreateButton(TabScripts, "Dance GUI", function()
+    loadstring(game:HttpGet('https://pastebin.com/raw/sB9Wwx9v', true))()
+    Utility:Notify("Scripts", "Loaded Dance GUI")
+end)
+CreateButton(TabScripts, "Lag Server", function()
+    loadstring(game:HttpGet('https://pastebin.com/raw/sB9Wwx9v', true))()
+    Utility:Notify("Scripts", "Lagging Server")
+end)
+CreateButton(TabScripts, "Auto-Heal", function()
+    spawn(function()
+            while task.wait(1) do
+                local player = game.Players.LocalPlayer
+                if player.Character and player.Character:FindFirstChild("Humanoid") then
+                    player.Character.Humanoid.Health = player.Character.Humanoid.MaxHealth
+                end
+            end
+        end)
+    Utility:Notify("Scripts", "Loaded Auto-Heal")
+end)
+CreateButton(TabScripts, "c00lkidd Skybox", function()
+    loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-c00lkidd-skybox-script-10964"))()
+    Utility:Notify("Scripts", "C00LKIDD WOOWOWOWO")
+end)
+CreateButton(TabScripts, "Leave Game", function()
+    loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-Freaky-ahh-quotes-by-me-43270"))()
+    Utility:Notify("Scripts", "Left the game")
 end)
 CreateButton(TabScripts, "Infinite Yield", function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"))()
@@ -1024,6 +1173,7 @@ task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Welcome to a recontinuation, a fork of NasGUI.", 5)
 task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Loaded. Made by Nas9229alt!", 5)
+
 
 
 
