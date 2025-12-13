@@ -430,7 +430,7 @@ CreateSlider(TabLocal, "Gravity", 0, 10000, workspace.Gravity, function(v)
 end)
 local Camera = workspace.CurrentCamera
 
-CreateSlider(TabLocal, "FOV", 30, 10000, Camera.FieldOfView, function(v)
+CreateSlider(TabLocal, "FOV", 30, 250, Camera.FieldOfView, function(v)
     Camera.FieldOfView = v
 end)
 -- 🕒 Time of Day
@@ -461,9 +461,9 @@ CreateSlider(TabLocal, "Others Health", 0, 10000, 100, function(v)
 end)
 -- ⚡ Quick Respawn
 CreateButton(TabLocal, "Quick Respawn", function()
-    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
-        LocalPlayer.Character.Humanoid.Health = 0
-    end
+    pcall(function()
+        LocalPlayer:LoadCharacter()
+    end)
 end)
 -- ☠ Kill Others
 CreateButton(TabLocal, "Kill Others", function()
@@ -979,6 +979,7 @@ task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Welcome to a recontinuation, a fork of NasGUI.", 5)
 task.wait(6)
 Utility:Notify("XChassis v1.5.3", "Loaded. Made by Nas9229alt!", 5)
+
 
 
 
